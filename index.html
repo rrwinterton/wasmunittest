@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" : content=rgb(223,219,219)>
+  <style>
+    body {
+      background-color: rgb(223, 219, 219);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- unit tests -->
+  <h2>unit tests</h2>
+  <form id=unitTestForm name="unitTestForm">
+    <b>Unit Test #1</b><br>
+    <input id="unitTest1Input" name="unitTest1Input" type="int" /><br><br>
+  </form>
+  <button onclick="doUnitTests()">Execute Unit Test</button>
+
+  <!--this is the area where user is displayed-->
+  <div id="panel"><br>
+    <div id="unittestresults"></div>
+  </div>
+
+  <!-- output results for simple interest calculator -->
+  <span id="container"></span>
+  <script src="./main.js"></script>
+
+  <script>
+
+    //handle the run button
+    var form = document.getElementById("unitTestForm");
+
+    //unit test inputs and return values
+    var UnitTest1Input = 0;
+    var UnitTest1Ret = -1;;
+
+    form.addEventListener("click", doUnitTests);
+    doUnitTest1 = Module.cwrap('UnitTest1', 'number', ['number']);
+
+    //unit tests section
+    //executeUnitTest1
+    function executeUnitTest1(UnitTest1Input) {
+      //check for input values
+      if (UnitTest1Input != 0) {
+        return doUnitTest1(UnitTest1Input);
+      }
+      return -1;
+    }
+
+    //parse unit test input parameter
+    function parseInputInt(x, base) {
+      const parsed = parseInt(x, base);
+      if (isNaN(parsed)) { return 0; }
+      return parsed;
+    }
+
+    //check unit test selections
+    function doUnitTests() {
+
+      //run unit tests
+      var fieldNameElement = document.getElementById('unittestresults');
+      fieldNameElement.innerHTML = "";
+
+      //add unit tests here
+      const UnitTest1Input = form.elements['unitTest1Input'];
+      //check Unit Test 1 input value
+      let UnitTest1InputValue = parseInputInt(UnitTest1Input.value);
+      //run Unit Test 1 if input not left blank or 0
+      if (UnitTest1InputValue != 0) {
+        UnitTest1Ret = executeUnitTest1(UnitTest1InputValue);
+        if (UnitTest1Ret == 0) {
+          fieldNameElement.innerHTML += "Unit Test 1 Success \n";
+        }
+        else {
+          fieldNameElement.innerHTML += "Unit Test 1 Failed \n";
+        }
+        //end Unit Test 1 
+      }
+
+
+    }
+
+  </script>
+</body>
+
+</html>
